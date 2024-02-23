@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main-layout">
+
+<div layout:fragment="content">
+    <div class="mt-2">
+        <div class="card">
+            <div class="card-header">
+                FOLDER
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${folder.name}"></h5>
+
+                <form th:action="@{'/delete-category'}" method="post" th:each="cat: ${folder.categories}" class="d-inline">
+                    <input type="hidden" name="category_id" th:value="${cat.id}">
+                    <input type="hidden" name="folder_id" th:value="${folder.id}">
+                    <button class="badge text-bg-info border-0" th:text="${cat.name} + ' x'"></button>
+                </form>
+                <button type="button" class="btn btn-link fw-bold text-decoration-none text-dark" data-bs-toggle="modal"
+                        data-bs-target="#addCategory">
+                    + Add Category
+                </button>
+                <div class="modal fade" id="addCategory" data-bs-backdrop="static" data-bs-keyboard="false"
+                     tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{'/add-category'}" method="post">
+                                <input type="hidden" name="folder_id" th:value="${folder.id}">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5">CATEGORY</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12 mt-2">
+                                                    <div class="text-center">
+                                                        <label>ADD CATEGORY</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 mt-2">
+                                                    <div>
+                                                        <select class="form-control" name="category_id">
+                                                            <option th:each="cat: ${categories}"
+                                                                    th:text="${cat.name}"
+                                                                    th:value="${cat.id}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE
+                                    </button>
+                                    <button class="btn btn-primary">ADD FOLDER</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

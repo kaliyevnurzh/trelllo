@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main-layout">
+
+<div layout:fragment="content">
+    <div class="mt-2">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFolder">
+            + ADD FOLDER
+        </button>
+        <div class="modal fade" id="addFolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{'/add-folder'}" method="post">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">FOLDER</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 mt-2">
+                                            <div class="text-center">
+                                                <label>ADD NAME FOLDER</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 mt-2">
+                                            <div>
+                                                <input type="text" class="form-control" name="name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                            <button class="btn btn-primary">ADD FOLDER</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <div class="row">
+            <div class="card col-3 mb-2 ms-2" th:each="f: ${folders}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${f.name}"></h5>
+                        <a th:href="@{'/folder-details/' + ${f.id}}" class="btn btn-primary btn-sm">DETAILS</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
