@@ -2,6 +2,7 @@ package kz.bitlab.test_trello.controller;
 
 import kz.bitlab.test_trello.model.Folder;
 import kz.bitlab.test_trello.model.FolderCategory;
+import kz.bitlab.test_trello.model.Task;
 import kz.bitlab.test_trello.service.CommentService;
 import kz.bitlab.test_trello.service.FolderCategoryService;
 import kz.bitlab.test_trello.service.FolderService;
@@ -44,6 +45,7 @@ public class HomeController {
                                 Model model){
         Folder folder = folderService.getFolder(id);
         model.addAttribute("folder",folder);
+        model.addAttribute("tasks", taskService.getAllTasksByFolderId(folder.getId()));
 
         List<FolderCategory> folderCategories =  folderCategoryService.getAllCategories();
         folderCategories.removeAll(folder.getCategories());
@@ -73,4 +75,33 @@ public class HomeController {
 
         return "redirect:folder-details/" +folder_id;
     }
+
+    @PostMapping(value = "/add-task")
+    public String addTask(Task task,
+                          @RequestParam int folder_id) {
+        Folder folder = folderService.getFolder(folder_id);
+        task.setFolder(folder);
+        taskService.addTask(task);
+
+        return "redirect:folder-details/" +task.getFolder().getId();
+    }
+
+    @GetMapping(value = "/task-details/{id}")
+    public String taskDetails(@PathVariable int id,
+                              Model model) {
+        model.addAttribute("task", taskService.getTaskById(id));
+
+        return "task-details-page";
+    }
+
+    @PostMapping(value = "/update-task")
+    public String updateTask(Task task,
+                             @RequestParam int folder_id) {
+        Folder folder = folderService.getFolder(folder_id);
+        task.setFolder(folderService.getFolder(folder_id));
+        taskService.updateTask(task);
+
+        return "redirect:folder-details/" +task.getFolder().getId();
+    }
+
 }

@@ -4,6 +4,7 @@
       layout:decorate="main-layout">
 
 <div layout:fragment="content">
+
     <div class="mt-2">
         <div class="card">
             <div class="card-header">
@@ -17,10 +18,12 @@
                     <input type="hidden" name="folder_id" th:value="${folder.id}">
                     <button class="badge text-bg-info border-0" th:text="${cat.name} + ' x'"></button>
                 </form>
+
                 <button type="button" class="btn btn-link fw-bold text-decoration-none text-dark" data-bs-toggle="modal"
                         data-bs-target="#addCategory">
                     + Add Category
                 </button>
+
                 <div class="modal fade" id="addCategory" data-bs-backdrop="static" data-bs-keyboard="false"
                      tabindex="-1"
                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -33,6 +36,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
+
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -58,6 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE
                                     </button>
@@ -67,8 +72,82 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+    <button type="button" class="btn btn-link fw-bold text-decoration-none text-dark mt-2" data-bs-toggle="modal" data-bs-target="#addTask">
+        + ADD TASK
+    </button>
+
+    <div class="modal fade" id="addTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{'/add-task'}" method="post">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">TASK</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="col-12 mt-2">
+                                    <div>
+                                        <label>TITLE</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div>
+                                        <input type="text" class="form-control" name="title" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div>
+                                        <label>DESCRIPTION</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div>
+                                        <textarea rows="5" name="description" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="folder_id" th:value="${folder.id}">
+                                <input type="hidden" name="status" th:value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                        <button class="btn btn-primary">ADD TASK</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <th>ID</th>
+            <th>Task Name</th>
+            <th style="width: 70%">Description</th>
+            <th>Status</th>
+            <th>Details</th>
+        </thead>
+        <tbody>
+            <tr th:each="t:${tasks}">
+                <td th:text="${t.id}"></td>
+                <td th:text="${t.title}"></td>
+                <td th:text="${t.description}"></td>
+                <td th:if="${t.status==0}" class="text-primary fw-bold">TO DO</td>
+                <td th:if="${t.status==1}" class="text-warning fw-bold">IN TEST</td>
+                <td th:if="${t.status==2}" class="text-success fw-bold">DONE</td>
+                <td><a th:href="@{'/task-details/' + ${t.id}}" class="btn btn-primary">View Mowe</a></td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
+
 </html>

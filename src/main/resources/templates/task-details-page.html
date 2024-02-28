@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main-layout">
+
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <form th:action="@{'/update-task'}" method="post">
+            <div class="col-6 mx-auto">
+                <div class="mt-2">
+                    <label>TITLE :</label>
+                </div>
+                <div class="mt-2">
+                    <input type="text" name="title" class="form-control" readonly th:value="${task.title}">
+                </div>
+                <div class="mt-2">
+                    <label>DESCRIPTION :</label>
+                </div>
+                <div class="mt-2">
+                    <textarea class="form-control" name="description" readonly rows="5" th:text="${task.description}"></textarea>
+                </div>
+                <div class="mt-2">
+                    <label>STATUS :</label>
+                </div>
+                <div class="mt-2">
+                    <select class="form-control" name="status">
+                        <option th:value="0" th:selected="${task.status==0}">TO DO</option>
+                        <option th:value="1" th:selected="${task.status==1}">IN TEST</option>
+                        <option th:value="2" th:selected="${task.status==2}">DONE</option>
+                    </select>
+                </div>
+                <input type="hidden" name="id" th:value="${task.id}">
+                <input type="hidden" name="folder_id" th:value="${task.folder.id}">
+                <button class="btn btn-primary mt-2">UPDATE</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>
